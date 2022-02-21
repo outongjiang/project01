@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.otj.Dao.Mapper.RoleMapper">
+<sql id="select">select * from role</sql>
+    <resultMap id="roleMap" type="com.otj.Domain.Role">
+        <result  column="roleid" property="roleid"></result>
+        <result column="rolename" property="rolename"></result>
+        <result column="status" property="status"></result>
+        <result column="password" property="password"></result>
+        <collection property="equipments" ofType="com.otj.Domain.Equipment">
+        <result  column="equipmentname" property="equipmentname"></result>
+
+        </collection>
+    </resultMap>
+
+    <select id="findById" resultType="role" parameterType="role">
+        <include refid="select"></include>
+        <where>
+            <if test="roleid!=0">
+                and roleid=#{roleid}
+            </if>
+            <if test="rolename!=null">
+                and rolename=#{rolename}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIds" parameterType="list" resultType="role" >
+        <include refid="select"></include>
+        <where>
+            <foreach collection="list" open="roleid in (" close=")" separator="," item="roleid">
+                #{roleid}
+            </foreach>
+        </where>
+    </select>
+    <select id="findAll" resultMap="roleMap" >
+      select * from role,equipment,role_equipment WHERE roleid=rid and equipmentid=eid
+    </select>
+<!--    <insert id="save" parameterType="role">-->
+<!--        insert into role values (#{roleid},#{rolename },#{status},#{password});-->
+<!--    </insert>-->
+<!--    <update id="updateById" parameterType="role">-->
+<!--        update role set rolename=#{rolename} where roleid=#{roleid}-->
+<!--    </update>-->
+<!--    <delete id="delById" parameterType="java.lang.Integer">-->
+<!--        delete from role where roleid=#{roleid}-->
+<!--    </delete>-->
+</mapper>

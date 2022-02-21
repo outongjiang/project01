@@ -1,0 +1,33 @@
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="druid.properties"></properties>
+    <typeAliases>
+        <typeAlias type="com.otj.Domain.Role" alias="role"></typeAlias>
+        <typeAlias type="com.otj.Domain.Department" alias="department"></typeAlias>
+    </typeAliases>
+<!--    <typeHandlers>-->
+<!--        <typeHandler handler="com.otj.util.TypeHandler"></typeHandler>-->
+<!--    </typeHandlers>-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="password" value="${password}"/>
+                <property name="username" value="${username1}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <package name="com.otj.Dao.Mapper"/>
+    </mappers>
+
+</configuration>
